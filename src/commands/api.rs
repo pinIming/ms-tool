@@ -34,11 +34,11 @@ pub fn run(api_path: &str, service: &str) -> Result<()> {
     let file = PathBuf::from(".microservice")
         .join(service)
         .join("reference")
-        .join("openapi.yaml");
+        .join("contract.yaml");
 
     if !file.is_file() {
         bail!(
-            "error: openapi.yaml not found for service '{}'",
+            "error: contract.yaml not found for service '{}'",
             service
         );
     }
@@ -51,7 +51,7 @@ pub fn run(api_path: &str, service: &str) -> Result<()> {
         .and_then(|paths| paths.get(api_path))
         .ok_or_else(|| {
             anyhow::anyhow!(
-                "error: path '{}' not found in openapi.yaml for service '{}'",
+                "error: path '{}' not found in contract.yaml for service '{}'",
                 api_path,
                 service
             )

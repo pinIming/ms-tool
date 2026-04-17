@@ -56,6 +56,6 @@ N/A — single domain service.
 
 ## References
 
-- [`reference/openapi.yaml`](reference/openapi.yaml) — Full API spec. **Do NOT read whole.**
+- [`reference/contract.yaml`](reference/contract.yaml) — Full API spec. **Do NOT read whole.**
   Use each domain's API paths to grep for relevant sections.
 

@@ -23,7 +23,7 @@ Provides internal query and verification endpoints for device bind records, scop
 
 > To get request/response schema for any API, derive the common path prefix from the
 > API paths listed above (e.g., `/api/device-bind`), then:
-> `grep -n "/api/device-bind" docs/contracts/management/reference/openapi.yaml`
+> `grep -n "/api/device-bind" docs/contracts/management/reference/contract.yaml`
 > Read only that line range (~20 lines of context).
 
 **API Source:** `com.newland.modules.management.api.operator.DeviceBindServiceApi`

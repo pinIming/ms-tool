@@ -26,10 +26,10 @@ The `.microservice/` directory holds contract files for every registered microse
     domains/
       <domain-name>.md           ← API list with intent descriptions
     reference/
-      openapi.yaml               ← full OpenAPI 3.x spec
+      contract.yaml               ← full OpenAPI 3.x spec
 ```
 
-Skills need targeted access to these files. Reading full openapi.yaml files into context
+Skills need targeted access to these files. Reading full contract.yaml files into context
 is expensive and noisy. `ms-tool` extracts only what is needed.
 
 ---
@@ -91,16 +91,16 @@ ms-tool domain device-bind --service management
 
 ### `ms-tool api "<api-path>" --service <service-name>`
 
-**Description:** Extracts the full path entry for a given API path from the service's openapi.yaml.
+**Description:** Extracts the full path entry for a given API path from the service's contract.yaml.
 
 **Arguments:**
 
 | Argument | Type | Required | Description |
 |----------|------|----------|-------------|
-| `api-path` | string | yes | API path as it appears in openapi.yaml (e.g. `/api/device-bind/operator/{operatorId}/device/verify`) |
+| `api-path` | string | yes | API path as it appears in contract.yaml (e.g. `/api/device-bind/operator/{operatorId}/device/verify`) |
 | `--service` | string | yes | Service directory name (e.g. `management`) |
 
-**Resolved path:** `$PWD/.microservice/<service-name>/reference/openapi.yaml`
+**Resolved path:** `$PWD/.microservice/<service-name>/reference/contract.yaml`
 
 **Matching rule:** Locate the `paths:` section in the YAML, find the key that exactly matches
 `<api-path>`, and return the complete path object including all HTTP methods, parameters,
@@ -109,13 +109,13 @@ requestBody, and responses. Do not truncate.
 **Output:** The matched YAML block to stdout, in valid YAML format.
 
 **Errors:**
-- Exit 1 + `error: openapi.yaml not found for service '<service-name>'` if file is missing
-- Exit 1 + `error: path '<api-path>' not found in openapi.yaml for service '<service-name>'` if path key is absent
+- Exit 1 + `error: contract.yaml not found for service '<service-name>'` if file is missing
+- Exit 1 + `error: path '<api-path>' not found in contract.yaml for service '<service-name>'` if path key is absent
 
 **Example:**
 ```bash
 ms-tool api "/api/device-bind/operator/{operatorId}/device/verify" --service management
-# → prints the full YAML block for that path from openapi.yaml
+# → prints the full YAML block for that path from contract.yaml
 ```
 
 ---

@@ -25,9 +25,9 @@ enum Commands {
         #[arg(long)]
         service: String,
     },
-    /// Extract a path entry from the service's openapi.yaml
+    /// Extract a path entry from the service's contract.yaml
     Api {
-        /// API path as it appears in openapi.yaml (e.g. /api/device-bind/...)
+        /// API path as it appears in contract.yaml (e.g. /api/device-bind/...)
         path: String,
         /// Service directory name under .microservice/
         #[arg(long)]
