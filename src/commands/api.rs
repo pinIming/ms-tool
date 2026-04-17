@@ -31,35 +31,47 @@ fn inline_refs(value: &serde_json::Value, doc: &serde_json::Value) -> serde_json
 }
 
 pub fn run(api_path: &str, service: &str) -> Result<()> {
-    let file = PathBuf::from(".microservice")
-        .join(service)
-        .join("reference")
-        .join("contract.yaml");
+    let ref_dir = PathBuf::from(".microservice").join(service).join("reference");
 
-    if !file.is_file() {
+    if !ref_dir.is_dir() {
         bail!(
-            "error: contract.yaml not found for service '{}'",
+            "error: reference directory not found for service '{}'",
             service
         );
     }
 
-    let content = fs::read_to_string(&file)?;
-    let doc: serde_json::Value = serde_json::from_str(&content)?;
+    let yaml_files: Vec<PathBuf> = fs::read_dir(&ref_dir)?
+        .filter_map(|e| e.ok())
+        .map(|e| e.path())
+        .filter(|p| p.extension().and_then(|s| s.to_str()) == Some("yaml"))
+        .collect();
 
-    let entry = doc
-        .get("paths")
-        .and_then(|paths| paths.get(api_path))
-        .ok_or_else(|| {
-            anyhow::anyhow!(
-                "error: path '{}' not found in contract.yaml for service '{}'",
-                api_path,
-                service
-            )
-        })?;
+    if yaml_files.is_empty() {
+        bail!(
+            "error: no .yaml files found in reference directory for service '{}'",
+            service
+        );
+    }
 
-    let resolved = inline_refs(entry, &doc);
-    let mut wrapper = serde_json::Map::new();
-    wrapper.insert(api_path.to_string(), resolved);
-    println!("{}", serde_json::to_string_pretty(&serde_json::Value::Object(wrapper))?);
-    Ok(())
+    for file in &yaml_files {
+        let content = fs::read_to_string(file)?;
+        let doc: serde_json::Value = match serde_json::from_str(&content) {
+            Ok(v) => v,
+            Err(_) => continue,
+        };
+
+        if let Some(entry) = doc.get("paths").and_then(|paths| paths.get(api_path)) {
+            let resolved = inline_refs(entry, &doc);
+            let mut wrapper = serde_json::Map::new();
+            wrapper.insert(api_path.to_string(), resolved);
+            println!("{}", serde_json::to_string_pretty(&serde_json::Value::Object(wrapper))?);
+            return Ok(());
+        }
+    }
+
+    bail!(
+        "error: path '{}' not found in any .yaml file for service '{}'",
+        api_path,
+        service
+    );
 }
