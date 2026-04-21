@@ -1,905 +1,596 @@
-{
-  "openapi": "3.0.1",
-  "info": {
-    "title": "OpenAPI definition",
-    "version": "v0"
-  },
-  "servers": [
-    {
-      "url": "http://localhost:9502/online/management",
-      "description": "Generated server url"
-    }
-  ],
-  "paths": {
-    "/api/device-bind/operator/{operatorId}/device/verify": {
-      "post": {
-        "tags": [
-          "device-bind-service-api"
-        ],
-        "operationId": "verifyDeviceLegalForFlyParameter",
-        "parameters": [
-          {
-            "name": "operatorId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "orgId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/DeviceVerifyVo"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/device-bind/operator/{operatorId}/device/verify/batch": {
-      "post": {
-        "tags": [
-          "device-bind-service-api"
-        ],
-        "operationId": "batchVerifyDeviceLegal",
-        "parameters": [
-          {
-            "name": "operatorId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "orgId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/DeviceIdentifyDto"
-                }
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/DeviceVerifyVo"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/device-bind/operator/{operatorId}/device/export-info": {
-      "post": {
-        "tags": [
-          "device-bind-service-api"
-        ],
-        "operationId": "queryFlyParamDeviceExportInfo",
-        "parameters": [
-          {
-            "name": "operatorId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/DeviceExportInfoVo"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/device-bind/operator/{operatorId}/mrch/{mrchId}": {
-      "get": {
-        "tags": [
-          "device-bind-service-api"
-        ],
-        "operationId": "queryDevicesByMerchantOrStore",
-        "parameters": [
-          {
-            "name": "operatorId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "mrchId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "storeUuid",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "pageNo",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PageInfoDeviceBindFullInfoEntity"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/device-bind/operator/{operatorId}/device/{devSn}/cmd/send/{isSendCmd}": {
-      "get": {
-        "tags": [
-          "device-bind-service-api"
-        ],
-        "operationId": "getDeviceRuntimeInfo",
-        "parameters": [
-          {
-            "name": "operatorId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "devSn",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "isSendCmd",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeviceRunTimeInfo"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/device-bind/character/accessable": {
-      "get": {
-        "tags": [
-          "device-bind-service-api"
-        ],
-        "operationId": "getSnListByCharactor",
-        "parameters": [
-          {
-            "name": "charactorDeviceBindDto",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/CharactorDeviceBindDto"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "DeviceVerifyVo": {
-        "type": "object",
-        "properties": {
-          "devSn": {
-            "type": "string"
-          },
-          "acquirerCode": {
-            "type": "string"
-          },
-          "devTid": {
-            "type": "string"
-          },
-          "orgId": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "code": {
-            "type": "string"
-          },
-          "msg": {
-            "type": "string"
-          }
-        }
-      },
-      "DeviceIdentifyDto": {
-        "type": "object",
-        "properties": {
-          "devSn": {
-            "type": "string"
-          },
-          "acquirerCode": {
-            "type": "string"
-          },
-          "devTid": {
-            "type": "string"
-          }
-        }
-      },
-      "DeviceExportInfoVo": {
-        "type": "object",
-        "properties": {
-          "devSn": {
-            "type": "string"
-          },
-          "deploymentName": {
-            "type": "string"
-          }
-        }
-      },
-      "DeviceBindQueryDto": {
-        "type": "object",
-        "properties": {
-          "acquirerCode": {
-            "type": "string"
-          },
-          "devTidList": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        }
-      },
-      "DeviceBindFullInfoEntity": {
-        "type": "object",
-        "properties": {
-          "devBindId": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "operatorId": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "operatorBindTime": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "orgId": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "devSn": {
-            "type": "string"
-          },
-          "devKsn": {
-            "type": "string"
-          },
-          "devTid": {
-            "type": "string"
-          },
-          "midTid": {
-            "type": "string"
-          },
-          "agentId": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "agentBindTime": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "developerId": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "developerBindTime": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "merchantId": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "merchantBindTime": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "storeUuid": {
-            "type": "string"
-          },
-          "activeTime": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "geoTraceFlag": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "creTime": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "creType": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "status": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "lockTypes": {
-            "type": "string"
-          },
-          "modelCode": {
-            "type": "string"
-          },
-          "modelName": {
-            "type": "string"
-          },
-          "deviceFlag": {
-            "type": "string"
-          },
-          "os": {
-            "type": "string"
-          },
-          "modelImageUrl": {
-            "type": "string"
-          }
-        }
-      },
-      "PageInfoDeviceBindFullInfoEntity": {
-        "type": "object",
-        "properties": {
-          "total": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "list": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DeviceBindFullInfoEntity"
-            }
-          },
-          "pageNum": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "size": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "startRow": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "endRow": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pages": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "prePage": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "nextPage": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "isFirstPage": {
-            "type": "boolean"
-          },
-          "isLastPage": {
-            "type": "boolean"
-          },
-          "hasPreviousPage": {
-            "type": "boolean"
-          },
-          "hasNextPage": {
-            "type": "boolean"
-          },
-          "navigatePages": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "navigatepageNums": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          "navigateFirstPage": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "navigateLastPage": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "DeviceRunTimeInfo": {
-        "type": "object",
-        "properties": {
-          "language": {
-            "type": "string"
-          },
-          "basicSettings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SystemSettingSupportVo"
-            }
-          },
-          "connectSettings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SystemSettingSupportVo"
-            }
-          },
-          "apnSetting": {
-            "$ref": "#/components/schemas/SystemSettingSupportVo"
-          },
-          "securitySettings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SystemSettingSupportVo"
-            }
-          },
-          "batterySetting": {
-            "$ref": "#/components/schemas/SystemSettingSupportVo"
-          },
-          "menuSettings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SystemSettingSupportVo"
-            }
-          },
-          "isMenuSettingSupport": {
-            "type": "boolean"
-          },
-          "sleepTime": {
-            "type": "string"
-          },
-          "timeZone": {
-            "type": "string"
-          },
-          "areaCode": {
-            "type": "string"
-          },
-          "location": {
-            "type": "string"
-          },
-          "inputMethods": {
-            "type": "string"
-          },
-          "screenBrightness": {
-            "type": "string"
-          },
-          "secondaryScreenBrightness": {
-            "type": "string"
-          },
-          "bluetoothSwitch": {
-            "type": "string"
-          },
-          "gpsSwitch": {
-            "type": "string"
-          },
-          "mediaVolume": {
-            "type": "string"
-          },
-          "ringVolume": {
-            "type": "string"
-          },
-          "magCardSwitch": {
-            "type": "string"
-          },
-          "icCardSwitch": {
-            "type": "string"
-          },
-          "rfCardSwitch": {
-            "type": "string"
-          },
-          "printSwitch": {
-            "type": "string"
-          },
-          "wifiSwitch": {
-            "type": "string"
-          },
-          "wifiSsid": {
-            "type": "string"
-          },
-          "cellularNetworksSwitch": {
-            "type": "string"
-          },
-          "isCharge": {
-            "type": "string"
-          },
-          "currentVoltage": {
-            "type": "string"
-          },
-          "batteryAllowance": {
-            "type": "string"
-          },
-          "networkType": {
-            "type": "string"
-          },
-          "downloadSpeed": {
-            "type": "string"
-          },
-          "signalStrength": {
-            "type": "string"
-          },
-          "wifiSignalStrength": {
-            "type": "string"
-          },
-          "mobileSignalLevel": {
-            "type": "string"
-          },
-          "wifiSignalLevel": {
-            "type": "string"
-          },
-          "usedStorage": {
-            "type": "string"
-          },
-          "totalStorage": {
-            "type": "string"
-          },
-          "usedMemory": {
-            "type": "string"
-          },
-          "totalMemory": {
-            "type": "string"
-          },
-          "usbHostSwitch": {
-            "type": "string"
-          },
-          "printerStatus": {
-            "type": "string"
-          },
-          "bootTime": {
-            "type": "string"
-          },
-          "upTime": {
-            "type": "string"
-          },
-          "pushServiceConnectStatus": {
-            "type": "string"
-          },
-          "apnName": {
-            "type": "string"
-          },
-          "apnApn": {
-            "type": "string"
-          },
-          "apnMnc": {
-            "type": "string"
-          },
-          "apnMcc": {
-            "type": "string"
-          },
-          "apnType": {
-            "type": "string"
-          },
-          "notUninstallApps": {
-            "type": "string"
-          },
-          "notForcedStopApps": {
-            "type": "string"
-          },
-          "occupyScreenApps": {
-            "type": "string"
-          },
-          "cpuUsage": {
-            "type": "string"
-          },
-          "isStatusBarExpandable": {
-            "type": "string"
-          },
-          "uploadTime": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "statusBarSwitch": {
-            "type": "string"
-          },
-          "latLng": {
-            "type": "string"
-          },
-          "apnProxy": {
-            "type": "string"
-          },
-          "apnPort": {
-            "type": "string"
-          },
-          "apnUsername": {
-            "type": "string"
-          },
-          "apnPassword": {
-            "type": "string"
-          },
-          "apnServer": {
-            "type": "string"
-          },
-          "apnMmsc": {
-            "type": "string"
-          },
-          "apnMmsProxy": {
-            "type": "string"
-          },
-          "apnMmsPort": {
-            "type": "string"
-          },
-          "apnAuthType": {
-            "type": "string"
-          },
-          "apnProtocol": {
-            "type": "string"
-          },
-          "apnRoamingProtocol": {
-            "type": "string"
-          },
-          "apnBearer": {
-            "type": "string"
-          },
-          "apnMvnoType": {
-            "type": "string"
-          },
-          "apnMvnomatchdata": {
-            "type": "string"
-          },
-          "pinSwitch": {
-            "type": "string"
-          },
-          "maxMediaVolume": {
-            "type": "string"
-          },
-          "maxRingVolume": {
-            "type": "string"
-          },
-          "simCardSN": {
-            "type": "string"
-          },
-          "simNum": {
-            "type": "string"
-          },
-          "wifiConnectedList": {
-            "type": "string"
-          },
-          "batteryProtectionInfo": {
-            "type": "string"
-          },
-          "hotspotMenuSwitch": {
-            "type": "string"
-          },
-          "ethernetSwitch": {
-            "type": "string"
-          },
-          "wifiNetConfigDto": {
-            "type": "string"
-          },
-          "netConfigDto": {
-            "type": "string"
-          },
-          "hasSettings": {
-            "type": "boolean"
-          },
-          "systemConfiguration": {
-            "type": "string"
-          },
-          "sleepStatus": {
-            "type": "string"
-          },
-          "autoTimeSwitch": {
-            "type": "string"
-          },
-          "autoTimeZoneSwitch": {
-            "type": "string"
-          },
-          "screenCaptureSwitch": {
-            "type": "string"
-          }
-        }
-      },
-      "SystemSettingSupportVo": {
-        "type": "object",
-        "properties": {
-          "settingType": {
-            "type": "string"
-          },
-          "funCode": {
-            "type": "string"
-          },
-          "value": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "valueStr": {
-            "type": "string"
-          },
-          "components": {
-            "type": "string"
-          },
-          "isFunctionSupport": {
-            "type": "boolean"
-          },
-          "isShowOtaSupportTip": {
-            "type": "boolean"
-          },
-          "isShowFunCodeTip": {
-            "type": "boolean"
-          }
-        }
-      },
-      "CharactorDeviceBindDto": {
-        "type": "object",
-        "properties": {
-          "characterCode": {
-            "type": "string"
-          },
-          "keyId": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "orgId": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "recursive": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "mrchId": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "devSn": {
-            "type": "string"
-          },
-          "tid": {
-            "type": "string"
-          }
-        }
-      }
-    }
-  }
-}
+openapi: "3.0.1"
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:9502/online/management
+    description: Generated server url
+paths:
+  /api/device-bind/operator/{operatorId}/device/verify:
+    post:
+      tags:
+        - device-bind-service-api
+      operationId: verifyDeviceLegalForFlyParameter
+      parameters:
+        - name: operatorId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: orgId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DeviceVerifyVo"
+  /api/device-bind/operator/{operatorId}/device/verify/batch:
+    post:
+      tags:
+        - device-bind-service-api
+      operationId: batchVerifyDeviceLegal
+      parameters:
+        - name: operatorId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: orgId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/DeviceIdentifyDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DeviceVerifyVo"
+  /api/device-bind/operator/{operatorId}/device/export-info:
+    post:
+      tags:
+        - device-bind-service-api
+      operationId: queryFlyParamDeviceExportInfo
+      parameters:
+        - name: operatorId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DeviceExportInfoVo"
+  /api/device-bind/operator/{operatorId}/mrch/{mrchId}:
+    get:
+      tags:
+        - device-bind-service-api
+      operationId: queryDevicesByMerchantOrStore
+      parameters:
+        - name: operatorId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: mrchId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: storeUuid
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: pageNo
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: pageSize
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/PageInfoDeviceBindFullInfoEntity"
+  /api/device-bind/operator/{operatorId}/device/{devSn}/cmd/send/{isSendCmd}:
+    get:
+      tags:
+        - device-bind-service-api
+      operationId: getDeviceRuntimeInfo
+      parameters:
+        - name: operatorId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: devSn
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: isSendCmd
+          in: path
+          required: true
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/DeviceRunTimeInfo"
+  /api/device-bind/character/accessable:
+    get:
+      tags:
+        - device-bind-service-api
+      operationId: getSnListByCharactor
+      parameters:
+        - name: charactorDeviceBindDto
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/CharactorDeviceBindDto"
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  type: string
+components:
+  schemas:
+    DeviceVerifyVo:
+      type: object
+      properties:
+        devSn:
+          type: string
+        acquirerCode:
+          type: string
+        devTid:
+          type: string
+        orgId:
+          type: integer
+          format: int64
+        code:
+          type: string
+        msg:
+          type: string
+    DeviceIdentifyDto:
+      type: object
+      properties:
+        devSn:
+          type: string
+        acquirerCode:
+          type: string
+        devTid:
+          type: string
+    DeviceExportInfoVo:
+      type: object
+      properties:
+        devSn:
+          type: string
+        deploymentName:
+          type: string
+    DeviceBindQueryDto:
+      type: object
+      properties:
+        acquirerCode:
+          type: string
+        devTidList:
+          type: array
+          items:
+            type: string
+    DeviceBindFullInfoEntity:
+      type: object
+      properties:
+        devBindId:
+          type: integer
+          format: int64
+        operatorId:
+          type: integer
+          format: int64
+        operatorBindTime:
+          type: integer
+          format: int64
+        orgId:
+          type: integer
+          format: int64
+        devSn:
+          type: string
+        devKsn:
+          type: string
+        devTid:
+          type: string
+        midTid:
+          type: string
+        agentId:
+          type: integer
+          format: int64
+        agentBindTime:
+          type: integer
+          format: int64
+        developerId:
+          type: integer
+          format: int64
+        developerBindTime:
+          type: integer
+          format: int64
+        merchantId:
+          type: integer
+          format: int64
+        merchantBindTime:
+          type: integer
+          format: int64
+        storeUuid:
+          type: string
+        activeTime:
+          type: integer
+          format: int64
+        geoTraceFlag:
+          type: integer
+          format: int32
+        creTime:
+          type: integer
+          format: int64
+        creType:
+          type: integer
+          format: int32
+        status:
+          type: integer
+          format: int32
+        lockTypes:
+          type: string
+        modelCode:
+          type: string
+        modelName:
+          type: string
+        deviceFlag:
+          type: string
+        os:
+          type: string
+        modelImageUrl:
+          type: string
+    PageInfoDeviceBindFullInfoEntity:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int64
+        list:
+          type: array
+          items:
+            $ref: "#/components/schemas/DeviceBindFullInfoEntity"
+        pageNum:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        startRow:
+          type: integer
+          format: int32
+        endRow:
+          type: integer
+          format: int32
+        pages:
+          type: integer
+          format: int32
+        prePage:
+          type: integer
+          format: int32
+        nextPage:
+          type: integer
+          format: int32
+        isFirstPage:
+          type: boolean
+        isLastPage:
+          type: boolean
+        hasPreviousPage:
+          type: boolean
+        hasNextPage:
+          type: boolean
+        navigatePages:
+          type: integer
+          format: int32
+        navigatepageNums:
+          type: array
+          items:
+            type: integer
+            format: int32
+        navigateFirstPage:
+          type: integer
+          format: int32
+        navigateLastPage:
+          type: integer
+          format: int32
+    DeviceRunTimeInfo:
+      type: object
+      properties:
+        language:
+          type: string
+        basicSettings:
+          type: array
+          items:
+            $ref: "#/components/schemas/SystemSettingSupportVo"
+        connectSettings:
+          type: array
+          items:
+            $ref: "#/components/schemas/SystemSettingSupportVo"
+        apnSetting:
+          $ref: "#/components/schemas/SystemSettingSupportVo"
+        securitySettings:
+          type: array
+          items:
+            $ref: "#/components/schemas/SystemSettingSupportVo"
+        batterySetting:
+          $ref: "#/components/schemas/SystemSettingSupportVo"
+        menuSettings:
+          type: array
+          items:
+            $ref: "#/components/schemas/SystemSettingSupportVo"
+        isMenuSettingSupport:
+          type: boolean
+        sleepTime:
+          type: string
+        timeZone:
+          type: string
+        areaCode:
+          type: string
+        location:
+          type: string
+        inputMethods:
+          type: string
+        screenBrightness:
+          type: string
+        secondaryScreenBrightness:
+          type: string
+        bluetoothSwitch:
+          type: string
+        gpsSwitch:
+          type: string
+        mediaVolume:
+          type: string
+        ringVolume:
+          type: string
+        magCardSwitch:
+          type: string
+        icCardSwitch:
+          type: string
+        rfCardSwitch:
+          type: string
+        printSwitch:
+          type: string
+        wifiSwitch:
+          type: string
+        wifiSsid:
+          type: string
+        cellularNetworksSwitch:
+          type: string
+        isCharge:
+          type: string
+        currentVoltage:
+          type: string
+        batteryAllowance:
+          type: string
+        networkType:
+          type: string
+        downloadSpeed:
+          type: string
+        signalStrength:
+          type: string
+        wifiSignalStrength:
+          type: string
+        mobileSignalLevel:
+          type: string
+        wifiSignalLevel:
+          type: string
+        usedStorage:
+          type: string
+        totalStorage:
+          type: string
+        usedMemory:
+          type: string
+        totalMemory:
+          type: string
+        usbHostSwitch:
+          type: string
+        printerStatus:
+          type: string
+        bootTime:
+          type: string
+        upTime:
+          type: string
+        pushServiceConnectStatus:
+          type: string
+        apnName:
+          type: string
+        apnApn:
+          type: string
+        apnMnc:
+          type: string
+        apnMcc:
+          type: string
+        apnType:
+          type: string
+        notUninstallApps:
+          type: string
+        notForcedStopApps:
+          type: string
+        occupyScreenApps:
+          type: string
+        cpuUsage:
+          type: string
+        isStatusBarExpandable:
+          type: string
+        uploadTime:
+          type: integer
+          format: int64
+        statusBarSwitch:
+          type: string
+        latLng:
+          type: string
+        apnProxy:
+          type: string
+        apnPort:
+          type: string
+        apnUsername:
+          type: string
+        apnPassword:
+          type: string
+        apnServer:
+          type: string
+        apnMmsc:
+          type: string
+        apnMmsProxy:
+          type: string
+        apnMmsPort:
+          type: string
+        apnAuthType:
+          type: string
+        apnProtocol:
+          type: string
+        apnRoamingProtocol:
+          type: string
+        apnBearer:
+          type: string
+        apnMvnoType:
+          type: string
+        apnMvnomatchdata:
+          type: string
+        pinSwitch:
+          type: string
+        maxMediaVolume:
+          type: string
+        maxRingVolume:
+          type: string
+        simCardSN:
+          type: string
+        simNum:
+          type: string
+        wifiConnectedList:
+          type: string
+        batteryProtectionInfo:
+          type: string
+        hotspotMenuSwitch:
+          type: string
+        ethernetSwitch:
+          type: string
+        wifiNetConfigDto:
+          type: string
+        netConfigDto:
+          type: string
+        hasSettings:
+          type: boolean
+        systemConfiguration:
+          type: string
+        sleepStatus:
+          type: string
+        autoTimeSwitch:
+          type: string
+        autoTimeZoneSwitch:
+          type: string
+        screenCaptureSwitch:
+          type: string
+    SystemSettingSupportVo:
+      type: object
+      properties:
+        settingType:
+          type: string
+        funCode:
+          type: string
+        value:
+          type: integer
+          format: int32
+        valueStr:
+          type: string
+        components:
+          type: string
+        isFunctionSupport:
+          type: boolean
+        isShowOtaSupportTip:
+          type: boolean
+        isShowFunCodeTip:
+          type: boolean
+    CharactorDeviceBindDto:
+      type: object
+      properties:
+        characterCode:
+          type: string
+        keyId:
+          type: integer
+          format: int64
+        orgId:
+          type: integer
+          format: int64
+        recursive:
+          type: integer
+          format: int32
+        mrchId:
+          type: integer
+          format: int64
+        devSn:
+          type: string
+        tid:
+          type: string

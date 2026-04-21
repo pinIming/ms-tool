@@ -55,7 +55,7 @@ pub fn run(api_path: &str, service: &str) -> Result<()> {
 
     for file in &yaml_files {
         let content = fs::read_to_string(file)?;
-        let doc: serde_json::Value = match serde_json::from_str(&content) {
+        let doc: serde_json::Value = match serde_yaml::from_str(&content) {
             Ok(v) => v,
             Err(_) => continue,
         };
